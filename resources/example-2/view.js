@@ -10,6 +10,10 @@ class View {
     newParagraph.textContent = 'This paragraph has been dynamically added by JavaScript!'
     this.mainContainerEl.append(newParagraph)
   }
+
+  clearParagraphs(){
+    document.querySelectorAll('p').forEach(p => p.remove());
+  }
 }
 
 module.exports = View;
