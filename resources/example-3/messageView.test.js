@@ -12,9 +12,10 @@ describe('MessageView', () => {
     const view = new MessageView();
 
     const buttonEl = document.querySelector('#show-message-button');
+    const inputEl = document.querySelector('#message-input');
+    inputEl.value = 'Random text'
     buttonEl.click();
-
-    expect(document.querySelector('#message')).not.toBeNull();
+    expect(document.querySelector('#message').innerText).toEqual('Random text')
   });
 
   it('removes the message when button clicked', () => {

@@ -3,6 +3,7 @@ class MessageView {
     this.showButtonEl = document.querySelector('#show-message-button');
     this.hideButtonEl = document.querySelector('#hide-message-button');
     this.mainContainerEl = document.querySelector('#main-container');
+    this.inputValueEl = document.querySelector('#message-input')
 
     this.showButtonEl.addEventListener('click', () => {
        this.displayMessage();
@@ -14,9 +15,8 @@ class MessageView {
   }
 
   displayMessage() {
-    console.log('Thanks for clicking me!');
     const message = document.createElement('div');
-    message.innerText = 'This message was displayed by Javascript';
+    message.innerText = this.inputValueEl.value;
     message.id = 'message';
     this.mainContainerEl.append(message);
   }
