@@ -17,6 +17,9 @@
         addNote(note) {
           this.notes.push(note);
         }
+        setNotes(notes) {
+          this.notes = notes;
+        }
         reset() {
           this.notes = [];
         }
@@ -29,8 +32,9 @@
   var require_notesView = __commonJS({
     "notesView.js"(exports, module) {
       var NotesView2 = class {
-        constructor(model2) {
+        constructor(model2, api2) {
           this.model = model2;
+          this.api = api2;
           this.mainContainerEl = document.querySelector("#main-container");
           this.inputValueEl = document.querySelector("#note-input");
           this.addNoteButtonEl = document.querySelector("#add-note-button");
@@ -50,16 +54,38 @@
             this.mainContainerEl.append(newNote);
           });
         }
+        displayNotesFromApi(callback) {
+          this.api.loadNotes((data) => {
+            this.model.setNotes(data);
+            this.displayNotes();
+            callback();
+          });
+        }
       };
       module.exports = NotesView2;
+    }
+  });
+
+  // notesApi.js
+  var require_notesApi = __commonJS({
+    "notesApi.js"(exports, module) {
+      var NotesApi2 = class {
+        loadNotes = (callback) => {
+          fetch("http://localhost:3000/notes").then((response) => response.json()).then((data) => {
+            callback(data);
+          });
+        };
+      };
+      module.exports = NotesApi2;
     }
   });
 
   // index.js
   var NotesModel = require_notesModel();
   var NotesView = require_notesView();
+  var NotesApi = require_notesApi();
   var model = new NotesModel();
-  model.addNote("This is an example note");
-  var view = new NotesView(model);
-  view.displayNotes();
+  var api = new NotesApi();
+  var view = new NotesView(model, api);
+  view.displayNotesFromApi();
 })();
